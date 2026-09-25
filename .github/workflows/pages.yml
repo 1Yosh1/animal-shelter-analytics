@@ -1,0 +1,75 @@
+name: Deploy dashboard to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      # --- Warehouse: real data from the Socrata portal ---
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements/base.txt
+
+      - name: Download data
+        run: python scripts/download_data.py
+
+      - name: Load raw warehouse
+        run: python scripts/load_raw.py
+
+      - name: dbt build
+        run: dbt build --profiles-dir .
+
+      # --- Dashboard: Evidence static build ---
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+
+      - name: Install dashboard dependencies
+        working-directory: dashboard
+        run: npm ci --legacy-peer-deps
+
+      - name: Materialize source queries
+        working-directory: dashboard
+        run: npx evidence sources
+
+      - name: Build dashboard
+        working-directory: dashboard
+        run: |
+          npx evidence build
+          ./scripts/post_build.sh
+
+      # --- Publish ---
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dashboard/build
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

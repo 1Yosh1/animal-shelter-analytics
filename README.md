@@ -1,6 +1,7 @@
 # 🐾 Austin Animal Shelter Analytics
 
 [![CI](https://github.com/1Yosh1/animal-shelter-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/1Yosh1/animal-shelter-analytics/actions/workflows/ci.yml)
+[![Dashboard](https://img.shields.io/badge/dashboard-live-2ea44f)](https://1yosh1.github.io/animal-shelter-analytics/)
 
 An analytics warehouse built with **dbt + DuckDB** over the city of Austin's
 open-data portal ([Austin Animal Center](https://data.austintexas.gov/),
@@ -10,6 +11,22 @@ answer the operational questions behind the data.
 
 > **The full analysis with charts lives in
 > [`notebooks/analysis.ipynb`](notebooks/analysis.ipynb)** (executed, zero errors).
+
+## 🖥️ Live dashboard
+
+A **live BI dashboard** built with [Evidence](https://evidence.dev) (SQL-in-markdown,
+static-site BI) is published to GitHub Pages on every push to `main`:
+
+**→ https://1yosh1.github.io/animal-shelter-analytics/**
+
+Three pages, nine charts: operational KPIs and the 12-year intake/outcome flow,
+species outcome mix and the age cliff, and high-volume breed economics. The deploy
+workflow rebuilds the *entire pipeline from scratch* on GitHub's runners — downloads
+the data from the city portal, runs `dbt build`, materializes the marts to parquet,
+and publishes the static site. Nothing is hand-updated.
+
+Run it locally with `make dashboard-build` (or `cd dashboard && npx evidence dev`
+for live-reload authoring).
 
 ## Headline findings
 
@@ -43,6 +60,9 @@ DuckDB + dbt keep it free, local, and fast (the full build runs in under a secon
 
 ```
 data/raw/*.csv                      Socrata portal downloads (never edited)
+dashboard/                          Evidence BI dashboard (SQL-in-markdown)
+  ├─ sources/shelter/*.sql          8 analytical queries materialized to parquet
+  └─ pages/*.md                     3 dashboard pages (KPIs, species, breeds)
       │  scripts/load_raw.py
       ▼
 raw.intakes, raw.outcomes           DuckDB schema: faithful copy, all varchar
@@ -114,6 +134,6 @@ Python (pandas, matplotlib/seaborn, pytest) · reproducible pipelines (Make, CI)
 
 ## Roadmap
 
-- [ ] BI layer (Evidence or Metabase) on the marts
+- [x] BI layer (Evidence) on the marts — live on GitHub Pages
 - [ ] Found-location geocoding → intake heatmap
 - [ ] Stay-length forecasting per species (feeds staffing decisions)

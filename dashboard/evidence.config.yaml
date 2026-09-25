@@ -1,0 +1,3 @@
+deployment:
+  # GitHub Pages serves the project under /animal-shelter-analytics/
+  basePath: /animal-shelter-analytics

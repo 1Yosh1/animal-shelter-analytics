@@ -1,4 +1,4 @@
-.PHONY: install download load build test lint serve analyze all
+.PHONY: install download load build test lint serve analyze dashboard-build all
 
 install:      ## Install dependencies
 	python -m pip install -r requirements/dev.txt
@@ -24,4 +24,10 @@ serve:        ## Explore the warehouse interactively
 analyze:      ## Rebuild the analysis notebook (requires built warehouse)
 	python scripts/build_analysis_notebook.py
 
-all: download load build analyze  ## Full pipeline end to end
+dashboard-build:  ## Build the Evidence dashboard (requires `make build` first)
+	cd dashboard && npm install --legacy-peer-deps --no-audit --no-fund
+	cd dashboard && npx evidence sources
+	cd dashboard && npx evidence build
+	./dashboard/scripts/post_build.sh
+
+all: download load build analyze dashboard-build  ## Full pipeline end to end

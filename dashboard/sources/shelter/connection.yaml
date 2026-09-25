@@ -1,0 +1,6 @@
+# The DuckDB warehouse built by `dbt build` (see repo root Makefile).
+# Evidence joins this path onto sources/shelter/, hence the ../ traversal.
+name: shelter
+type: duckdb
+options:
+  filename: "../../../warehouse/animal_shelter.duckdb"

@@ -1,0 +1,9 @@
+# Evidence plugin registration (classic config format)
+components:
+  "@evidence-dev/core-components":
+    overrides: []
+    provides: []
+    aliases: {}
+
+datasources:
+  "@evidence-dev/duckdb": {}
