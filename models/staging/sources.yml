@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    description: "Untouched copies of the Socrata portal CSVs."
+    tables:
+      - name: intakes
+        description: "One row per animal intake event (Austin Animal Center)."
+      - name: outcomes
+        description: "One row per animal outcome event (Austin Animal Center)."

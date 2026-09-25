@@ -1,0 +1,30 @@
+# Data (downloaded from Socrata; rebuildable via make download)
+data/
+
+# Warehouse (rebuildable via make load + make build)
+warehouse/
+
+# dbt artifacts
+target/
+dbt_packages/
+logs/
+.user.yml
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
+
+# Env
+.env

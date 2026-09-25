@@ -1,0 +1,7 @@
+animal_shelter:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('DUCKDB_PATH', 'warehouse/animal_shelter.duckdb') }}"
+      threads: 4

@@ -1,0 +1,24 @@
+name: animal_shelter
+version: 1.0.0
+config-version: 2
+
+profile: animal_shelter
+
+model-paths: ["models"]
+test-paths: ["tests"]
+analysis-paths: ["analyses"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  animal_shelter:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table

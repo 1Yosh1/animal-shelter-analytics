@@ -1,0 +1,10 @@
+-r base.txt
+
+# Dev / CI tooling
+ruff>=0.4.0
+pytest>=8.0.0
+
+# Notebook tooling (regenerate notebooks/analysis.ipynb)
+nbformat>=5.9.0
+nbclient>=0.8.0
+ipykernel>=6.29.0

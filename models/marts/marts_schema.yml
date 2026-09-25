@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: dim_animal
+    description: "One row per animal with lifetime intake counts."
+    columns:
+      - name: animal_key
+        tests: [not_null, unique]
+      - name: total_intakes
+        tests: [not_null]
+
+  - name: dim_date
+    description: "Calendar dimension."
+    columns:
+      - name: date_day
+        tests: [not_null, unique]
+
+  - name: fct_intakes
+    description: "Intake events."
+    columns:
+      - name: animal_key
+        tests: [not_null]
+
+  - name: fct_outcomes
+    description: "Outcome events."
+    columns:
+      - name: animal_key
+        tests: [not_null]
+
+  - name: mart_stay_analytics
+    description: "Completed stays with outcome categories."
+    columns:
+      - name: animal_key
+        tests: [not_null]
+      - name: stay_days
+        tests: [not_null]
+      - name: stay_length_bucket
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['0-6 days', '1-2 weeks', '2-4 weeks', '1-3 months', '3+ months']
+      - name: outcome_category
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['positive', 'transfer', 'negative', 'missing', 'other', 'unknown']

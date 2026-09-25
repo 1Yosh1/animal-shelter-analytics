@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_intakes
+    description: "One row per intake event, typed and cleaned."
+    columns:
+      - name: animal_key
+        description: "Lowercased Animal ID (surrogate-safe join key)."
+        tests: [not_null]
+      - name: intake_timestamp
+        description: "Parsed intake timestamp."
+        tests: [not_null]
+      - name: intake_type
+        tests: [not_null]
+      - name: animal_type
+        tests: [not_null]
+      - name: age_upon_intake_years
+        description: "Signed age in years parsed from the raw age string."
+
+  - name: stg_outcomes
+    description: "One row per outcome event, typed and cleaned."
+    columns:
+      - name: animal_key
+        tests: [not_null]
+      - name: outcome_timestamp
+        tests: [not_null]
+      - name: outcome_type
+        description: >
+          Outcome category. 46 rows (0.03%) have no outcome type in the raw
+          portal data (mostly wildlife); the mart tracks these as 'unknown'
+          and a monitoring test keeps them under 1%.
