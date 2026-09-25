@@ -45,6 +45,10 @@ jobs:
 
       - name: Seed tiny raw warehouse
         run: python scripts/make_ci_seed.py
+        env:
+          DUCKDB_PATH: warehouse/ci_seed.duckdb
 
       - name: dbt build (models + data tests)
         run: dbt build --profiles-dir .
+        env:
+          DUCKDB_PATH: warehouse/ci_seed.duckdb
