@@ -1,5 +1,7 @@
 # 🐾 Austin Animal Shelter Analytics
 
+[![CI](https://github.com/1Yosh1/animal-shelter-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/1Yosh1/animal-shelter-analytics/actions/workflows/ci.yml)
+
 An analytics warehouse built with **dbt + DuckDB** over the city of Austin's
 open-data portal ([Austin Animal Center](https://data.austintexas.gov/),
 CC0/public domain), turning 347K raw intake/outcome events (2013–2025) into a
